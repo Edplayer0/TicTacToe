@@ -3,102 +3,123 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link rel="stylesheet" href="style.css" />
+
     <title>TicTacToe</title>
   </head>
   <body
-    class="bg-gray-50 flex flex-col h-screen text-white font-semibold md:text-md xl:text-xl"
+    class="min-h-screen bg-linear-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-100 antialiased"
   >
-    <header class="bg-blue-400 dark:bg-blue-800 p-3 m-5 rounded-md shadow-xl">
-      <h1 class="text-2xl md:text-4xl lg:text-5xl text-center font-bold">
-        Tic Tac Toe
-      </h1>
-    </header>
-    <main>
-      <section class="flex justify-evenly">
-        <div
-          class="p-3 bg-blue-400 dark:bg-blue-800 rounded-md mt-2 grid place-content-center shadow-xl"
+    <div class="max-w-3xl mx-auto p-6">
+      <header
+        class="bg-slate-800/70 backdrop-blur-md rounded-2xl p-6 shadow-lg ring-1 ring-slate-700"
+      >
+        <h1
+          class="text-center text-3xl sm:text-4xl font-extrabold tracking-tight"
         >
-          <p>Player: 0</p>
+          Tic Tac Toe
+        </h1>
+        <p id="sub" class="mt-2 text-center text-sm text-slate-300">
+          Turn: <span id="turn">Player (X)</span>
+        </p>
+      </header>
+
+      <section class="mt-6 grid grid-cols-2 gap-4">
+        <div
+          class="flex items-center justify-center gap-4 bg-slate-800/60 p-3 rounded-xl shadow-inner"
+        >
+          <div class="text-sm text-slate-300">Jugador</div>
+          <div id="player-score" class="text-2xl font-bold text-emerald-400">
+            0
+          </div>
         </div>
         <div
-          class="p-3 bg-blue-400 dark:bg-blue-800 rounded-md mt-2 grid place-content-center shadow-xl"
+          class="flex items-center justify-center gap-4 bg-slate-800/60 p-3 rounded-xl shadow-inner"
         >
-          <p>Bot: 0</p>
+          <div class="text-sm text-slate-300">Bot</div>
+          <div id="bot-score" class="text-2xl font-bold text-rose-400">0</div>
         </div>
       </section>
 
+      <!-- board -->
       <section
-        class="grid grid-cols-3 gap-2 bg-blue-400 dark:bg-blue-800 p-6 rounded-md mx-auto max-w-md mt-8 shadow-xl"
         id="squares-container"
+        class="mt-8 grid grid-cols-3 gap-3 bg-linear-to-br from-slate-800/40 to-slate-900/30 p-4 rounded-2xl mx-auto max-w-md shadow-2xl ring-1 ring-slate-700"
+        role="grid"
+        aria-label="Board Tic Tac Toe"
       ></section>
-      <section
-        class="grid grid-cols-2 max-w-md mx-auto mt-10 gap-10 place-content-center"
-      >
+
+      <!-- controls -->
+      <section class="mt-6 grid grid-cols-3 gap-3">
         <button
-          class="shadow-xl mx-auto p-1 w-4/5 text-center bg-blue-400 dark:bg-blue-800 rounded-md py-2"
+          id="reset"
+          class="col-span-1 py-2 px-4 rounded-lg bg-emerald-500 hover:bg-emerald-600 active:scale-95 transform transition text-slate-900 font-semibold shadow"
         >
           Reset
         </button>
         <button
-          class="shadow-xl mx-auto p-1 w-4/5 text-center bg-blue-400 dark:bg-blue-800 rounded-md py-2"
+          id="settings"
+          class="col-span-1 py-2 px-4 rounded-lg bg-slate-700 hover:bg-slate-600 active:scale-95 transform transition border border-slate-600 text-slate-100"
         >
           Settings
         </button>
         <button
-          class="shadow-xl mx-auto p-1 w-4/5 text-center bg-blue-400 dark:bg-blue-800 rounded-md col-span-2 py-2"
+          id="about"
+          class="col-span-1 py-2 px-4 rounded-lg bg-sky-500 hover:bg-sky-600 active:scale-95 transform transition text-slate-900 font-semibold shadow"
         >
           About Me
         </button>
       </section>
-    </main>
+    </div>
+
     <script>
-      let squaresContainer = document.getElementById("squares-container");
+      const squaresContainer = document.getElementById("squares-container");
       for (let i = 1; i <= 9; i++) {
-        squaresContainer.innerHTML += `<div
-          class="square bg-white dark:bg-gray-100 rounded-md aspect-square w-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-200 cursor-pointer transition"
-          id="square-${i}"
-        ></div>`;
+        const cell = document.createElement("div");
+        cell.type = "button";
+        cell.id = `square-${i}`;
+        cell.dataset.index = i - 1;
+        cell.setAttribute("role", "gridcell");
+        cell.setAttribute("aria-label", `Cell ${i}`);
+        cell.className =
+          "square bg-white/90 rounded-xl aspect-square w-full flex items-center justify-center cursor-pointer hover:scale-105 focus:scale-105 focus:outline-none focus:ring-4 focus:ring-sky-400/40 transition-transform shadow-md";
+        squaresContainer.appendChild(cell);
       }
     </script>
-    <script src="script/main.js"></script>
-    <style>
-      .circle {
-        width: 80%;
-        height: 80%;
-        border-radius: 50%;
-        background-color: oklch(70.7% 0.165 254.624);
-        position: relative;
-      }
-      .circle::before {
-        width: 80%;
-        height: 80%;
-        border-radius: 50%;
-        background-color: #fff;
-        position: absolute;
-        content: "";
-        translate: 10px 10px;
-      }
 
+    <!-- estilos personalizados para marcas -->
+    <style>
       .x {
         width: 80%;
         height: 80%;
-        background-color: oklch(70.7% 0.165 254.624);
+        background: linear-gradient(180deg, #60a5fa, #1e3a8a);
         clip-path: polygon(
-          20% 0%,
-          0% 20%,
+          20% 0,
+          0 20%,
           30% 50%,
-          0% 80%,
+          0 80%,
           20% 100%,
           50% 70%,
           80% 100%,
           100% 80%,
           70% 50%,
           100% 20%,
-          80% 0%,
+          80% 0,
           50% 30%
         );
+        border-radius: 6px;
+      }
+      .o {
+        width: 70%;
+        height: 70%;
+        border-radius: 50%;
+        border: 15px solid #1e3a8a;
+        box-sizing: border-box;
+        background: transparent;
       }
     </style>
+
+    <script src="script/main.js"></script>
   </body>
 </html>

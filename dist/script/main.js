@@ -1,5 +1,11 @@
 const squares = document.querySelectorAll(".square");
 
+const XCLASS = "x";
+const OCLASS = "o";
+
+const playerScore = document.getElementById("player-score");
+const botScore = document.getElementById("bot-score");
+
 class Round {
   constructor(player) {
     this.player = player;
@@ -68,10 +74,10 @@ class Round {
     return true;
   }
 
-  play = function (square) {
+  play(square) {
     if (square.children.length) return false;
     let element = document.createElement("DIV");
-    element.classList.add(this.player);
+    element.classList.add(XCLASS);
     square.appendChild(element);
     this.plays++;
 
@@ -81,9 +87,9 @@ class Round {
     }
 
     this.botPlay();
-  };
+  }
 
-  botPlay = function () {
+  botPlay() {
     if (this.finished) {
       this.win();
       return;
@@ -121,7 +127,7 @@ class Round {
         const idx = x * 3 + y;
         if (this.state[x][y] === 0 && bestAction[x][y] !== 0) {
           const el = document.createElement("DIV");
-          el.classList.add(bestAction[x][y] === 1 ? "x" : "circle");
+          el.classList.add(bestAction[x][y] === 1 ? XCLASS : OCLASS);
           squares[idx].appendChild(el);
           this.plays++;
           if (this.finished) this.win();
@@ -129,9 +135,9 @@ class Round {
         }
       }
     }
-  };
+  }
 
-  reset = function () {
+  reset() {
     for (let square of squares) {
       let element = square.children[0];
 
@@ -141,14 +147,22 @@ class Round {
 
       square.removeChild(element);
     }
-  };
+  }
 
-  win = function () {
-    alert(`Winner: ${this.utility()}`);
+  win() {
+    let u = this.utility();
+
+    alert(`Winner: ${u}`);
     this.reset();
-  };
 
-  actions = function (state, value) {
+    if (u == 1) {
+      playerScore.textContent = parseInt(playerScore.textContent.trim()) + 1;
+    } else if (u == -1) {
+      botScore.textContent = parseInt(botScore.textContent.trim()) + 1;
+    }
+  }
+
+  actions(state, value) {
     if (!state) {
       state = this.state;
     }
@@ -165,7 +179,7 @@ class Round {
       }
     }
     return actions;
-  };
+  }
 
   minValue = function (action) {
     if (this.utility(action)) {
@@ -179,7 +193,7 @@ class Round {
     return Math.min(...max);
   };
 
-  maxValue = function (action) {
+  maxValue(action) {
     if (this.utility(action)) {
       return this.utility(action);
     }
@@ -189,9 +203,9 @@ class Round {
     if (min.length === 0) return 0;
 
     return Math.max(...min);
-  };
+  }
 
-  utility = function (state) {
+  utility(state) {
     if (!state) {
       state = this.state;
     }
@@ -220,7 +234,7 @@ class Round {
 
     // There is no winner
     return 0;
-  };
+  }
 }
 
 const game = new Round((player = "x"));
@@ -229,3 +243,5 @@ const game = new Round((player = "x"));
 squares.forEach((square) =>
   square.addEventListener("click", () => game.play(square))
 );
+
+document.getElementById("reset").addEventListener("click", () => game.reset());

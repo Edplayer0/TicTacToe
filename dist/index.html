@@ -30,44 +30,8 @@
 
       <section
         class="grid grid-cols-3 gap-2 bg-blue-400 dark:bg-blue-800 p-6 rounded-md mx-auto max-w-md mt-8 shadow-xl"
-      >
-        <div
-          class="square bg-white dark:bg-gray-100 rounded-md aspect-square w-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-200 cursor-pointer transition"
-          id="square-1"
-        ></div>
-        <div
-          class="square bg-white dark:bg-gray-100 rounded-md aspect-square w-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-200 cursor-pointer transition"
-          id="square-2"
-        ></div>
-        <div
-          class="square bg-white dark:bg-gray-100 rounded-md aspect-square w-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-200 cursor-pointer transition"
-          id="square-3"
-        ></div>
-        <div
-          class="square bg-white dark:bg-gray-100 rounded-md aspect-square w-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-200 cursor-pointer transition"
-          id="square-4"
-        ></div>
-        <div
-          class="square bg-white dark:bg-gray-100 rounded-md aspect-square w-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-200 cursor-pointer transition"
-          id="square-5"
-        ></div>
-        <div
-          class="square bg-white dark:bg-gray-100 rounded-md aspect-square w-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-200 cursor-pointer transition"
-          id="square-6"
-        ></div>
-        <div
-          class="square bg-white dark:bg-gray-100 rounded-md aspect-square w-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-200 cursor-pointer transition"
-          id="square-7"
-        ></div>
-        <div
-          class="square bg-white dark:bg-gray-100 rounded-md aspect-square w-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-200 cursor-pointer transition"
-          id="square-8"
-        ></div>
-        <div
-          class="square bg-white dark:bg-gray-100 rounded-md aspect-square w-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-200 cursor-pointer transition"
-          id="square-9"
-        ></div>
-      </section>
+        id="squares-container"
+      ></section>
       <section
         class="grid grid-cols-2 max-w-md mx-auto mt-10 gap-10 place-content-center"
       >
@@ -88,6 +52,15 @@
         </button>
       </section>
     </main>
+    <script>
+      let squaresContainer = document.getElementById("squares-container");
+      for (let i = 1; i <= 9; i++) {
+        squaresContainer.innerHTML += `<div
+          class="square bg-white dark:bg-gray-100 rounded-md aspect-square w-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-200 cursor-pointer transition"
+          id="square-${i}"
+        ></div>`;
+      }
+    </script>
     <script src="script/main.js"></script>
     <style>
       .circle {
